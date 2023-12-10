@@ -20,7 +20,7 @@ parseWord (x:xs) =
 parseWordToInt :: Parser String -> Integer -> Parser Integer
 parseWordToInt word int = P (\inp -> case parse word inp of
                                 [] -> []
-                                [(s,rest)] -> [(int,rest)])
+                                [(s,rest)] -> [(int,(tail s) ++ rest)])
 
 intDigit :: Parser Integer
 intDigit = digit >>= (\c -> return (read (c:[]) :: Integer))
@@ -71,10 +71,28 @@ aoc1 = do
   let x = addAllCalibrationValues (lines content) partialLexer
       y = addAllCalibrationValues (lines content) fullLexer in
     print ("Partial: " ++ (show x) ++ "  ::::    Full: " ++ (show y))
-  aoc1testing
+  aoc1testing (lines content)
 
+-- Debug Functions
 
-aoc1testing :: IO ()
-aoc1testing = do
+appendAnswer :: String -> String
+appendAnswer str = str ++ " :: " ++ (show (calibrationValue str fullLexer)) ++ "\n"
+
+appendAllAnswers :: [String] -> [String]
+appendAllAnswers = map appendAnswer
+
+concatAllStrings :: [String] -> String
+concatAllStrings = foldr (++) ""
+
+aoc1testing :: [String] -> IO ()
+aoc1testing strs = do
+  writeFile "/Users/brandonlara/work/AoC-in-Haskell/aoc/data/debugData2.txt" (concatAllStrings (appendAllAnswers strs))
   print (parse fullLexer "onetwo12three")
-  print (lowercase "OneTwo12")
+  print (calibrationValue "2oneight" fullLexer)
+  print (calibrationValue "two1nine" fullLexer)
+  print (calibrationValue "eighttwothree" fullLexer)
+  print (calibrationValue "abcone2threexyz" fullLexer)
+  print (calibrationValue "xtwone3four" fullLexer)
+  print (calibrationValue "4nineeightseven2" fullLexer)
+  print (calibrationValue "zoneight234" fullLexer)
+  print (calibrationValue "7pqrstsixteen" fullLexer)
