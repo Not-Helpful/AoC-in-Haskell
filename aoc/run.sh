@@ -1,0 +1,2 @@
+stack build
+stack run
