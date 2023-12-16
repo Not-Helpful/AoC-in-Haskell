@@ -11,6 +11,7 @@ parseChar c = P (\inp -> case parse item inp of
                   [(x,str)] -> if (c==x) then [(x,str)] else [])
 
 
+
 parseWord :: String -> Parser String
 parseWord [] = return []
 parseWord (x:xs) =
@@ -96,3 +97,4 @@ aoc1testing strs = do
   print (calibrationValue "4nineeightseven2" fullLexer)
   print (calibrationValue "zoneight234" fullLexer)
   print (calibrationValue "7pqrstsixteen" fullLexer)
+  print (calibrationValue "ladsjflakjfd12" fullLexer )
